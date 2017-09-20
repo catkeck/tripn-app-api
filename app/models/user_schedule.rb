@@ -1,0 +1,2 @@
+class UserSchedule < ApplicationRecord
+end
