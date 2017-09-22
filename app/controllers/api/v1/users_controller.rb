@@ -12,8 +12,14 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def user_data
-    username = current_user.username
-    render json: {username: username}
+    trips = []
+    current_user.schedules.all.each do |schedule|
+      events = []
+      events << schedule.date
+      events << schedule.activities
+      trips << events
+    end
+    render json: {username: current_user.username, trips: trips}
   end
 
 

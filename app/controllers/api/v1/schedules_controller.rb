@@ -1,5 +1,4 @@
-class Api::V1::TripsController < ApplicationController
-
+class Api::V1::SchedulesController < ApplicationController
   def find_places
     query_term = params[:searchTerm].split(" ").join("+")
     response = HTTParty.get("https://api.yelp.com/v3/businesses/search?location=#{query_term}&categories=arts,localflavor&limit=50&sort_by=rating", headers: {"Authorization" => "Bearer zzSJcoghsbcSeNzF6YQ7vcj_kufo6RJfq6KwcIepTzHQTusehX6b95_PYSyKqE3wf4lycwtowriOST4wQvgnCBXYQxWFMQLAN2DOq2gFnLkK2KTAV9oyd0uXBri-WXYx"}, format: :plain)
@@ -8,7 +7,7 @@ class Api::V1::TripsController < ApplicationController
     render :json => {businesses: json}
   end
 
-  def find_bad_weather_places
+  def find_indoor_places
     query_term = params[:searchTerm].split(" ").join("+")
     response = HTTParty.get("https://api.yelp.com/v3/businesses/search?location=#{query_term}&categories=galleries,castles,mahjong,musicvenues,observatories,opera,theater,planetarium&limit=50&sort_by=rating", headers: {"Authorization" => "Bearer zzSJcoghsbcSeNzF6YQ7vcj_kufo6RJfq6KwcIepTzHQTusehX6b95_PYSyKqE3wf4lycwtowriOST4wQvgnCBXYQxWFMQLAN2DOq2gFnLkK2KTAV9oyd0uXBri-WXYx"}, format: :plain)
     json = JSON.parse(response.body)
@@ -24,6 +23,16 @@ class Api::V1::TripsController < ApplicationController
     render :json => {restaurants: json}
   end
 
-
-
+  def create
+    schedule = Schedule.create(user_id: current_user.id, date: Date.today)
+    activities = params[:trip][:activities]
+    activities.each do |activity| 
+      Activity.create(schedule_id: schedule.id, activity: activity[:name], imageURL: activity[:image_url])
+    end
+    restaurants = params[:trip][:restaurants]
+    restaurants.each do |restaurant|
+      Activity.create(schedule_id: schedule.id, activity: restaurant[:name], imageURL: restaurant[:image_url])
+    end
+  end
 end
+
