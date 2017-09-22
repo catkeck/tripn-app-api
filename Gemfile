@@ -29,6 +29,7 @@ gem 'puma', '~> 3.7'
   gem 'httparty'
   gem 'bcrypt', '~> 3.1.7'
   gem 'jwt'
+  gem 'carrierwave-base64'
 
   group :production do
     gem 'pg'

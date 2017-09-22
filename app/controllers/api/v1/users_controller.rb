@@ -11,14 +11,23 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def save_image
+    current_user.image = params[:image]
+    current_user.save
+  end
+
   def user_data
     trips = []
+    activities = []
     current_user.schedules.all.each do |schedule|
       events = []
-      events << schedule.date << schedule.activities
+      events << schedule.date << schedule.location << schedule.activities
+      activities << schedule.activities
       trips << events
     end
-    render json: {username: current_user.username, trips: trips}
+    flatten_activities = activities.flatten.map{ |activity| activity[:activity]}
+    render json: {username: current_user.username, file: current_user.image, trips: trips, activities: flatten_activities}
+
   end
 
 

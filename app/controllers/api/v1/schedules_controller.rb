@@ -24,7 +24,7 @@ class Api::V1::SchedulesController < ApplicationController
   end
 
   def create
-    schedule = Schedule.create(user_id: current_user.id, date: Date.today)
+    schedule = Schedule.create(user_id: current_user.id, date: Date.today, location: params[:trip][:location])
     activities = params[:trip][:activities]
     activities.each do |activity| 
       Activity.create(schedule_id: schedule.id, activity: activity[:name], imageURL: activity[:image_url])
