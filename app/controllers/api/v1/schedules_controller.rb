@@ -31,7 +31,7 @@ class Api::V1::SchedulesController < ApplicationController
     end
     restaurants = params[:trip][:restaurants]
     restaurants.each do |restaurant|
-      Activity.create(schedule_id: schedule.id, activity: restaurant[:name], imageURL: restaurant[:image_url])
+      Activity.create(schedule_id: schedule.id, activity: restaurant[:name], imageURL: restaurant[:image_url], latitude: restaurant[:coordinates][:latitude], longitude: restaurant[:coordinates][:longitude])
     end
   end
 end
