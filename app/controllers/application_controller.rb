@@ -18,7 +18,6 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
-    puts "I am in current user"
     decoded_hash = decoded_token(token)
     if !decoded_hash.empty?
       user_id = decoded_hash[0]["user_id"]

@@ -22,6 +22,7 @@ class Api::V1::UsersController < ApplicationController
     user = current_user
     user.interests = params[:interests]
     user.save
+    user_data
   end
 
   def user_data
@@ -34,8 +35,7 @@ class Api::V1::UsersController < ApplicationController
       trips << events
     end
     flatten_activities = activities.flatten.map{ |activity| activity[:activity]}
-    render json: {username: current_user.username, image: current_user.image, trips: trips, activities: flatten_activities}
-
+    render json: {username: current_user.username, image: current_user.image, interests: current_user.interests, trips: trips, activities: flatten_activities}
   end
 
 
