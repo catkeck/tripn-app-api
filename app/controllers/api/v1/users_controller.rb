@@ -15,6 +15,13 @@ class Api::V1::UsersController < ApplicationController
     user = current_user
     user.image = params[:image]
     user.save
+    user_data
+  end
+
+  def save_interests
+    user = current_user
+    user.interests = params[:interests]
+    user.save
   end
 
   def user_data
