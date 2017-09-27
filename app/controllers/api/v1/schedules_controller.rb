@@ -22,10 +22,10 @@ class Api::V1::SchedulesController < ApplicationController
   def find_indoor_places
     user = current_user
     query_term = params[:searchTerm].split(" ").join("+")
-    user = current_user
-    interests_overlap_array = user.interests.split(",")&["escapegames","fitnesses","barreclasses","bootcamps","boxing","gymnastics","indoor_playcentre","arcades","galleries","cabaret","casinos","castles","chois","movietheaters","countryclubs","culturalcenter","hauntehouses","museums","artmuseums","childrensmuseums","musicvenues","observatories","opera","paintandsip","theater","planetarium","ticketsales","virtualrealitycenters","winetastingroom","artclasses","glassblowing","tastingclasses","cheesetastingclasses","winetasteclasses","barcrawl","beergardens","coffeeshops","comedyclubs","countrydancehalsl","danceclubs","fasil","jazzandblues","karaoke","musicvenues","pianobars","poolhalls","buddhis_temples","churches","hindu_temples","mosques","shrines","spiritism","synagogues","taoisttemples","antiques","galleries","stationery","cookingclasses","paintyourownpottery","bookstores","comicbooks"].join(",")
+    interests_overlap_array = user.interests.split(",")&["escapegames","fitnesses","barreclasses","bootcamps","boxing","gymnastics","indoor_playcentre","arcades","galleries","cabaret","casinos","castles","chois","movietheaters","countryclubs","culturalcenter","hauntehouses","museums","artmuseums","childrensmuseums","musicvenues","observatories","opera","paintandsip","theater","planetarium","ticketsales","virtualrealitycenters","winetastingroom","artclasses","glassblowing","tastingclasses","cheesetastingclasses","winetasteclasses","barcrawl","beergardens","coffeeshops","comedyclubs","countrydancehalsl","danceclubs","fasil","jazzandblues","karaoke","musicvenues","pianobars","poolhalls","buddhis_temples","churches","hindu_temples","mosques","shrines","spiritism","synagogues","taoisttemples","antiques","galleries","stationery","cookingclasses","paintyourownpottery","bookstores","comicbooks"]
     interests_input = filter_interests_array(interests_overlap_array)
     response = HTTParty.get("https://api.yelp.com/v3/businesses/search?location=#{query_term}&categories=#{interests_input}&limit=50&offset=#{params[:offset]}&sort_by=rating", headers: {"Authorization" => "Bearer zzSJcoghsbcSeNzF6YQ7vcj_kufo6RJfq6KwcIepTzHQTusehX6b95_PYSyKqE3wf4lycwtowriOST4wQvgnCBXYQxWFMQLAN2DOq2gFnLkK2KTAV9oyd0uXBri-WXYx"}, format: :plain)
+    json = JSON.parse(response.body)
     businesses = json
     render :json => {businesses: json}
   end
