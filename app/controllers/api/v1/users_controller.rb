@@ -29,14 +29,11 @@ class Api::V1::UsersController < ApplicationController
     activities = []
     current_user.schedules.all.each do |schedule|
       events = []
-      events << schedule.date << schedule.location << schedule.activities
+      events << schedule.date << schedule.location << schedule.image_url << schedule.activities
       activities << schedule.activities
       trips << events
     end
     flatten_activities = activities.flatten.map{ |activity| activity[:activity]}
     render json: {username: current_user.username, image: current_user.image, interests: current_user.interests, trips: trips, activities: flatten_activities}
   end
-
-
-
 end

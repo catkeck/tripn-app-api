@@ -39,15 +39,15 @@ class Api::V1::SchedulesController < ApplicationController
   end
 
   def create
-    schedule = Schedule.create(user_id: current_user.id, date: Date.today, location: params[:trip][:location])
-
+    imageResponse = HTTParty.get("https://api.qwant.com/api/search/images?count=1&offset=1&q=#{params[:trip][:location]}+desktop")
+    schedule = Schedule.create(user_id: current_user.id, date: Date.today, location: params[:trip][:location], image_url: imageResponse["data"]["result"]["items"][0]["media"])
     activities = params[:trip][:activities]
     activities.each do |activity| 
-      Activity.create(schedule_id: schedule.id, activity: activity[:name], imageURL: activity[:image_url], latitude: activity[:coordinates][:latitude], longitude: activity[:coordinates][:longitude])
+      Activity.create(schedule_id: schedule.id, activity: activity[:name], imageURL: activity[:image_url], latitude: activity[:coordinates][:latitude], longitude: activity[:coordinates][:longitude], address: activity[:location][:display_address].join(" "), phone_number: activity[:display_phone])
     end
     restaurants = params[:trip][:restaurants]
     restaurants.each do |restaurant|
-      Activity.create(schedule_id: schedule.id, activity: restaurant[:name], imageURL: restaurant[:image_url], latitude: restaurant[:coordinates][:latitude], longitude: restaurant[:coordinates][:longitude])
+      Activity.create(schedule_id: schedule.id, activity: restaurant[:name], imageURL: restaurant[:image_url], latitude: restaurant[:coordinates][:latitude], longitude: restaurant[:coordinates][:longitude], address: restaurant[:location][:display_address].join(" "), phone_number: restaurant[:display_phone])
     end
   end
 end
