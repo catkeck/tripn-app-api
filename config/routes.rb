@@ -11,6 +11,10 @@ Rails.application.routes.draw do
       post '/user/save_image', to: 'users#save_image'
       post '/user/save_interests', to: 'users#save_interests'
       post '/schedules/new', to: 'schedules#create'
+      post '/tinydancer/get_token', to: 'uber#get_token'
+      post '/tinydancer/get_products', to: 'uber#get_products'
+      post '/tinydancer/get_price_estimate', to: 'uber#get_price_estimate'
+      post '/tinydancer/book_ride', to: 'uber#book_ride'
     end
   end
 end

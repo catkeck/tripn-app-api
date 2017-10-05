@@ -30,6 +30,8 @@ gem 'puma', '~> 3.7'
   gem 'bcrypt', '~> 3.1.7'
   gem 'jwt'
   gem 'carrierwave-base64'
+  gem 'uber-ruby', require: 'uber'
+  gem 'figaro'
 
   group :production do
     gem 'pg'
