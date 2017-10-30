@@ -27,7 +27,7 @@ class Api::V1::UberController < ApplicationController
     data = {product_id: product_id, start_latitude: start_latitude, start_longitude: start_longitude, end_latitude: end_latitude, end_longitude: end_longitude}
     response = HTTParty.post("https://api.uber.com/v1.2/requests/estimate", headers: {'Content-Type' => 'application/json', 'Accept-Language' => 'en_US', "Authorization" => "Bearer #{accessToken}"}, body: JSON.generate(data))
     json = JSON.parse(response.body)
-    render :json => {price: json}
+    render :json => {price: json, product_id: product_id}
   end
 
   def book_ride

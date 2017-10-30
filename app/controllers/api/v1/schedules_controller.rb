@@ -39,7 +39,8 @@ class Api::V1::SchedulesController < ApplicationController
   end
 
   def create
-    imageResponse = HTTParty.get("https://api.qwant.com/api/search/images?count=1&offset=1&q=#{params[:trip][:location]}+desktop")
+    location = (params[:trip][:location]).downcase
+    imageResponse = HTTParty.get("https://api.qwant.com/api/search/images?count=1&offset=1&q=#{location}+desktop")
     schedule = Schedule.create(user_id: current_user.id, date: Date.today, location: params[:trip][:location], image_url: (imageResponse["data"]["result"]["items"][0]["media"] ? imageResponse["data"]["result"]["items"][0]["media"] : null))
     activities = params[:trip][:activities]
     activities.each do |activity| 
