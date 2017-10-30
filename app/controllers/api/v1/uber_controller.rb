@@ -2,7 +2,7 @@ class Api::V1::UberController < ApplicationController
 
   def get_token
     code = params[:code]
-    data = {client_id: 'SPJ6ABS79wvt56KnjwID5WdjTXNE-DIS', client_secret: ENV['UBER_SECRET'], code: code, scope: 'request', redirect_uri: 'http://localhost:3001/uber/', grant_type: 'authorization_code'}
+    data = {client_id: 'SPJ6ABS79wvt56KnjwID5WdjTXNE-DIS', client_secret: ENV['UBER_SECRET'], code: code, scope: 'request', redirect_uri: 'https://tripn.herokuapp.com/uber/', grant_type: 'authorization_code'}
     response = HTTParty.post('https://login.uber.com/oauth/v2/token', body: data)
     json = JSON.parse(response.body)
     render :json => {access_token: json["access_token"]}
